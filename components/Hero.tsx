@@ -19,8 +19,8 @@ const wordContainer = {
   show: { transition: { staggerChildren: 0.07, delayChildren: 0.55 } },
 }
 const word = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(6px)' },
-  show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 }
 
 // Static particle data — avoids hydration mismatch
@@ -121,16 +121,20 @@ export default function Hero() {
                 initial="hidden"
                 animate="show"
                 className="inline"
-                style={{
-                  background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
                 aria-label="pruebas de función respiratoria"
               >
                 {['pruebas', 'de', 'función', 'respiratoria'].map((w, i) => (
-                  <motion.span key={i} variants={word} className="inline-block mr-[0.25em]">
+                  <motion.span
+                    key={i}
+                    variants={word}
+                    className="inline-block mr-[0.25em]"
+                    style={{
+                      background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
                     {w}
                   </motion.span>
                 ))}
