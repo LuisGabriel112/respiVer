@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 import { useTheme } from './ThemeProvider'
 
 const NAV_LINKS = [
@@ -68,13 +69,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group" aria-label="RESPIVER inicio">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--secondary)] flex items-center justify-center shadow-lg transition-shadow"
-              style={{ boxShadow: '0 0 12px color-mix(in srgb, var(--accent) 25%, transparent)' }}>
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M10 2C7.5 2 6 4.5 6 7c0 1.5.4 2.8.9 4L5 13.5c-.4.7 0 1.5.8 1.5H7l.8-1.5h4.4l.8 1.5h1.2c.8 0 1.2-.8.8-1.5L13 11c.5-1.2.9-2.5.9-4C14 4.5 12.5 2 10 2z" fill="white"/>
-                <path d="M7.5 10.5c.8.8 4.2.8 5 0" stroke="white" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-            </div>
+            <Image
+              src="/logo.jpeg"
+              alt="RESPIVER logo"
+              width={40}
+              height={40}
+              className="rounded-lg object-contain"
+              priority
+            />
             <span className="font-jakarta font-bold text-xl tracking-tight" style={{ color: textColor }}>
               RESPI<span style={{ color: accentColor }}>VER</span>
             </span>

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { FadeIn } from './FadeIn'
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -47,13 +48,13 @@ export default function ContactFooter() {
               {/* Logo */}
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-                    style={{ background: 'linear-gradient(to bottom right, var(--accent), var(--secondary))' }}>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M10 2C7.5 2 6 4.5 6 7c0 1.5.4 2.8.9 4L5 13.5c-.4.7 0 1.5.8 1.5H7l.8-1.5h4.4l.8 1.5h1.2c.8 0 1.2-.8.8-1.5L13 11c.5-1.2.9-2.5.9-4C14 4.5 12.5 2 10 2z" fill="white"/>
-                      <path d="M7.5 10.5c.8.8 4.2.8 5 0" stroke="white" strokeWidth="1.2" strokeLinecap="round"/>
-                    </svg>
-                  </div>
+                  <Image
+                    src="/logo.jpeg"
+                    alt="RESPIVER logo"
+                    width={44}
+                    height={44}
+                    className="rounded-xl object-contain"
+                  />
                   <div>
                     <div className="font-jakarta font-bold text-2xl text-white">
                       RESPI<span style={{ color: 'var(--accent)' }}>VER</span>
