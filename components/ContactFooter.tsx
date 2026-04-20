@@ -2,8 +2,10 @@
 
 import Image from 'next/image'
 import { useRef, useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FadeIn } from './FadeIn'
 
+// ── Lazy Google Maps iframe ───────────────────────────────────────────────────
 function LazyMap() {
   const ref = useRef<HTMLDivElement>(null)
   const [load, setLoad] = useState(false)
@@ -25,8 +27,7 @@ function LazyMap() {
         <iframe
           title="Ubicación RESPIVER"
           src="https://maps.google.com/maps?q=Av+Paseo+La+Ni%C3%B1a+103%2C+Fraccionamiento+Las+Americas%2C+Boca+del+R%C3%ADo%2C+Veracruz+94299%2C+M%C3%A9xico&output=embed&z=16&hl=es"
-          width="100%"
-          height="100%"
+          width="100%" height="100%"
           referrerPolicy="no-referrer-when-downgrade"
           className="absolute inset-0 w-full h-full"
           style={{ border: 0 }}
@@ -43,6 +44,7 @@ function LazyMap() {
   )
 }
 
+// ── Icon helpers ──────────────────────────────────────────────────────────────
 function FacebookIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -67,6 +69,247 @@ function WhatsAppIcon({ className }: { className?: string }) {
   )
 }
 
+// ── Contact Form ──────────────────────────────────────────────────────────────
+type FormState = { nombre: string; telefono: string; motivo: string; mensaje: string }
+type FormStatus = 'idle' | 'loading' | 'success'
+type FormErrors = Partial<FormState>
+
+const inputBase = {
+  background: 'var(--secondary-sm)',
+  border: '1px solid var(--secondary-md)',
+  color: 'var(--text)',
+  borderRadius: '0.75rem',
+  padding: '0.625rem 0.875rem',
+  width: '100%',
+  fontFamily: 'inherit',
+  fontSize: '0.875rem',
+  outline: 'none',
+  transition: 'border-color 0.2s',
+}
+
+function ContactForm() {
+  const [form, setForm] = useState<FormState>({ nombre: '', telefono: '', motivo: 'Agendar cita', mensaje: '' })
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [status, setStatus] = useState<FormStatus>('idle')
+  const [focused, setFocused] = useState<string | null>(null)
+
+  function set(field: keyof FormState) {
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      setForm(f => ({ ...f, [field]: e.target.value }))
+      if (errors[field]) setErrors(er => ({ ...er, [field]: undefined }))
+    }
+  }
+
+  function validate() {
+    const e: FormErrors = {}
+    if (!form.nombre.trim()) e.nombre = 'Ingresa tu nombre'
+    if (!form.telefono.trim()) e.telefono = 'Ingresa tu número'
+    if (!form.mensaje.trim()) e.mensaje = 'Escribe tu mensaje'
+    setErrors(e)
+    return Object.keys(e).length === 0
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!validate()) return
+    setStatus('loading')
+
+    const text = encodeURIComponent(
+      `Hola RESPIVER 👋\n\nSoy *${form.nombre.trim()}*.\n*Motivo:* ${form.motivo}\n\n${form.mensaje.trim()}\n\n📞 ${form.telefono.trim()}`
+    )
+
+    setTimeout(() => {
+      setStatus('success')
+      window.open(`https://wa.me/522215878583?text=${text}`, '_blank', 'noopener,noreferrer')
+    }, 700)
+  }
+
+  if (status === 'success') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="flex flex-col items-center justify-center text-center py-10 px-6 rounded-2xl h-full"
+        style={{ background: 'var(--secondary-sm)', border: '1px solid var(--secondary-md)' }}
+      >
+        <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
+          style={{ background: 'rgba(37,211,102,0.12)' }}>
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="#25D366" strokeWidth="2.5"
+            strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h4 className="font-jakarta font-bold text-lg text-white mb-2">¡Mensaje enviado!</h4>
+        <p className="font-manrope text-sm text-white/55 mb-5 leading-relaxed">
+          Se abrió WhatsApp con tu mensaje listo. Si no se abrió automáticamente, escríbenos directamente.
+        </p>
+        <div className="flex gap-3 flex-wrap justify-center">
+          <a href="https://wa.me/522215878583" target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-space font-semibold text-sm px-5 py-2.5 rounded-xl"
+            style={{ background: '#25D366', color: '#fff' }}>
+            <WhatsAppIcon className="w-4 h-4" />
+            Abrir WhatsApp
+          </a>
+          <button onClick={() => { setStatus('idle'); setForm({ nombre: '', telefono: '', motivo: 'Agendar cita', mensaje: '' }) }}
+            className="font-space text-sm px-5 py-2.5 rounded-xl transition-colors"
+            style={{ color: 'var(--accent)', border: '1px solid var(--secondary-md)' }}>
+            Nuevo mensaje
+          </button>
+        </div>
+      </motion.div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate className="space-y-4" aria-label="Formulario de contacto">
+      {/* Nombre */}
+      <div>
+        <label htmlFor="cf-nombre" className="block font-space text-xs font-semibold mb-1.5"
+          style={{ color: 'var(--accent)' }}>
+          Nombre completo <span aria-hidden="true">*</span>
+        </label>
+        <input
+          id="cf-nombre"
+          type="text"
+          autoComplete="name"
+          placeholder="Dr. / Lic. / Sr. ..."
+          value={form.nombre}
+          onChange={set('nombre')}
+          onFocus={() => setFocused('nombre')}
+          onBlur={() => setFocused(null)}
+          aria-required="true"
+          aria-invalid={!!errors.nombre}
+          aria-describedby={errors.nombre ? 'cf-nombre-error' : undefined}
+          style={{
+            ...inputBase,
+            borderColor: errors.nombre ? '#F87171' : focused === 'nombre' ? 'var(--accent)' : 'var(--secondary-md)',
+          }}
+        />
+        {errors.nombre && (
+          <p id="cf-nombre-error" role="alert" className="mt-1 text-xs font-manrope" style={{ color: '#F87171' }}>
+            {errors.nombre}
+          </p>
+        )}
+      </div>
+
+      {/* Teléfono + Motivo */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="cf-tel" className="block font-space text-xs font-semibold mb-1.5"
+            style={{ color: 'var(--accent)' }}>
+            Teléfono / WhatsApp <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="cf-tel"
+            type="tel"
+            autoComplete="tel"
+            placeholder="222 000 0000"
+            value={form.telefono}
+            onChange={set('telefono')}
+            onFocus={() => setFocused('telefono')}
+            onBlur={() => setFocused(null)}
+            aria-required="true"
+            aria-invalid={!!errors.telefono}
+            aria-describedby={errors.telefono ? 'cf-tel-error' : undefined}
+            style={{
+              ...inputBase,
+              borderColor: errors.telefono ? '#F87171' : focused === 'telefono' ? 'var(--accent)' : 'var(--secondary-md)',
+            }}
+          />
+          {errors.telefono && (
+            <p id="cf-tel-error" role="alert" className="mt-1 text-xs font-manrope" style={{ color: '#F87171' }}>
+              {errors.telefono}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="cf-motivo" className="block font-space text-xs font-semibold mb-1.5"
+            style={{ color: 'var(--accent)' }}>
+            Motivo
+          </label>
+          <select
+            id="cf-motivo"
+            value={form.motivo}
+            onChange={set('motivo')}
+            onFocus={() => setFocused('motivo')}
+            onBlur={() => setFocused(null)}
+            style={{
+              ...inputBase,
+              borderColor: focused === 'motivo' ? 'var(--accent)' : 'var(--secondary-md)',
+              cursor: 'pointer',
+            }}
+          >
+            <option value="Agendar cita">Agendar cita</option>
+            <option value="Información de estudios">Información de estudios</option>
+            <option value="Precios y disponibilidad">Precios y disponibilidad</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Mensaje */}
+      <div>
+        <label htmlFor="cf-mensaje" className="block font-space text-xs font-semibold mb-1.5"
+          style={{ color: 'var(--accent)' }}>
+          Mensaje <span aria-hidden="true">*</span>
+        </label>
+        <textarea
+          id="cf-mensaje"
+          rows={4}
+          placeholder="Cuéntanos brevemente qué estudio necesitas o tu consulta..."
+          value={form.mensaje}
+          onChange={set('mensaje')}
+          onFocus={() => setFocused('mensaje')}
+          onBlur={() => setFocused(null)}
+          aria-required="true"
+          aria-invalid={!!errors.mensaje}
+          aria-describedby={errors.mensaje ? 'cf-mensaje-error' : undefined}
+          style={{
+            ...inputBase,
+            borderColor: errors.mensaje ? '#F87171' : focused === 'mensaje' ? 'var(--accent)' : 'var(--secondary-md)',
+            resize: 'none',
+          }}
+        />
+        {errors.mensaje && (
+          <p id="cf-mensaje-error" role="alert" className="mt-1 text-xs font-manrope" style={{ color: '#F87171' }}>
+            {errors.mensaje}
+          </p>
+        )}
+      </div>
+
+      {/* Submit */}
+      <motion.button
+        type="submit"
+        disabled={status === 'loading'}
+        whileHover={status !== 'loading' ? { y: -2 } : {}}
+        whileTap={status !== 'loading' ? { scale: 0.98 } : {}}
+        className="w-full flex items-center justify-center gap-2.5 font-space font-semibold text-sm py-3.5 rounded-xl transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+        style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
+      >
+        {status === 'loading' ? (
+          <>
+            <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 000 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"/>
+            </svg>
+            Enviando...
+          </>
+        ) : (
+          <>
+            <WhatsAppIcon className="w-4 h-4" />
+            Enviar por WhatsApp
+          </>
+        )}
+      </motion.button>
+      <p className="text-center font-manrope text-xs text-white/35">
+        Tu mensaje se abrirá en WhatsApp listo para enviar
+      </p>
+    </form>
+  )
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
 export default function ContactFooter() {
   return (
     <footer id="contacto" className="relative" style={{ background: 'var(--footer-bg)' }}>
@@ -79,22 +322,18 @@ export default function ContactFooter() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0">
 
-        {/* Main content grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 pb-16" style={{ borderBottom: '1px solid var(--secondary-sm)' }}>
+        {/* Three-column grid: brand | form | map */}
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12 pb-16"
+          style={{ borderBottom: '1px solid var(--secondary-sm)' }}>
 
-          {/* Left column – brand + contact info */}
-          <FadeIn>
-            <div className="space-y-8">
+          {/* ── Col 1: Brand + contact info ── */}
+          <FadeIn className="lg:col-span-2">
+            <div className="space-y-7">
               {/* Logo */}
               <div>
                 <div className="flex items-center gap-3 mb-3">
-                  <Image
-                    src="/logo.jpeg"
-                    alt="RESPIVER logo"
-                    width={44}
-                    height={44}
-                    className="rounded-xl object-contain"
-                  />
+                  <Image src="/logo.jpeg" alt="RESPIVER logo" width={44} height={44}
+                    className="rounded-xl object-contain" />
                   <div>
                     <div className="font-jakarta font-bold text-2xl text-white">
                       RESPI<span style={{ color: 'var(--accent)' }}>VER</span>
@@ -109,35 +348,16 @@ export default function ContactFooter() {
                 </p>
               </div>
 
-              {/* Contact details */}
-              <div className="space-y-4">
-                <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase" style={{ color: 'var(--accent)' }}>
-                  Contacto
-                </h3>
+              {/* Contact info */}
+              <div className="space-y-3">
+                <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
+                  style={{ color: 'var(--accent)' }}>Contacto directo</h3>
 
-                {/* Address */}
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                      <circle cx="12" cy="10" r="3"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-manrope text-sm text-white/75">Av Paseo La Niña 103, Fracc. Las Américas</p>
-                    <p className="font-manrope text-xs text-white/40">94299 Boca del Río, Veracruz</p>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <a
-                  href="tel:2222251062"
-                  className="flex items-center gap-3 group"
-                >
+                <a href="tel:2222251062" className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3.09a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.14 7.85a16 16 0 006.25 6.25l1.21-1.21a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
                     </svg>
                   </div>
@@ -147,13 +367,8 @@ export default function ContactFooter() {
                   </div>
                 </a>
 
-                {/* WhatsApp */}
-                <a
-                  href="https://wa.me/522215878583"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 group"
-                >
+                <a href="https://wa.me/522215878583" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
                     <WhatsAppIcon className="w-4 h-4" />
@@ -163,114 +378,91 @@ export default function ContactFooter() {
                     <p className="font-manrope text-xs text-white/40">WhatsApp</p>
                   </div>
                 </a>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-manrope text-sm text-white/75 leading-snug">Av Paseo La Niña 103, Fracc. Las Américas</p>
+                    <p className="font-manrope text-xs text-white/40">94299 Boca del Río, Veracruz</p>
+                  </div>
+                </div>
               </div>
 
               {/* Social */}
               <div className="space-y-3">
-                <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase" style={{ color: 'var(--accent)' }}>
-                  Redes sociales
-                </h3>
+                <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
+                  style={{ color: 'var(--accent)' }}>Redes sociales</h3>
                 <div className="flex gap-3">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Facebook @neumoclinical"
-                    className="flex items-center gap-2 text-white/55 transition-colors group"
-                  >
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
-                      style={{ background: 'var(--icon-bg-2)', border: '1px solid var(--secondary-sm)', color: 'var(--accent)' }}>
-                      <FacebookIcon className="w-4 h-4" />
-                    </div>
-                    <span className="font-space text-xs">@neumoclinical</span>
-                  </a>
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Instagram @neumoclinical"
-                    className="flex items-center gap-2 text-white/55 transition-colors group"
-                  >
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
-                      style={{ background: 'var(--icon-bg-2)', border: '1px solid var(--secondary-sm)', color: 'var(--accent)' }}>
-                      <InstagramIcon className="w-4 h-4" />
-                    </div>
-                    <span className="font-space text-xs">@neumoclinical</span>
-                  </a>
+                  {[
+                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: '@neumoclinical' },
+                    { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: '@neumoclinical' },
+                  ].map(({ icon, label, handle }) => (
+                    <a key={label} href="#" target="_blank" rel="noopener noreferrer"
+                      aria-label={`${label} ${handle}`}
+                      className="flex items-center gap-2 text-white/55 hover:text-white/90 transition-colors group">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all group-hover:scale-105"
+                        style={{ background: 'var(--icon-bg-2)', border: '1px solid var(--secondary-sm)', color: 'var(--accent)' }}>
+                        {icon}
+                      </div>
+                      <span className="font-space text-xs">{handle}</span>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
           </FadeIn>
 
-          {/* Right column – Map placeholder + schedule CTA */}
-          <FadeIn delay={0.15}>
-            <div className="space-y-6 h-full flex flex-col">
-              <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase" style={{ color: 'var(--accent)' }}>
-                Ubicación
-              </h3>
+          {/* ── Col 2: Contact form ── */}
+          <FadeIn delay={0.1} className="lg:col-span-2">
+            <div className="space-y-5 h-full">
+              <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
+                style={{ color: 'var(--accent)' }}>Envíanos un mensaje</h3>
+              <ContactForm />
+            </div>
+          </FadeIn>
 
-              {/* Google Maps embed */}
-              <div className="flex-1 min-h-[280px] rounded-2xl overflow-hidden relative"
+          {/* ── Col 3: Map + quick CTA ── */}
+          <FadeIn delay={0.2} className="lg:col-span-1">
+            <div className="space-y-5 h-full flex flex-col">
+              <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
+                style={{ color: 'var(--accent)' }}>Ubicación</h3>
+
+              {/* Map */}
+              <div className="flex-1 min-h-[200px] rounded-2xl overflow-hidden relative"
                 style={{ border: '1px solid var(--card-border)' }}>
                 <LazyMap />
               </div>
 
-              {/* Dirección */}
-              <a
-                href="https://maps.google.com/?q=Av+Paseo+La+Ni%C3%B1a+103%2C+Boca+del+R%C3%ADo%2C+Veracruz+94299"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-3 group"
-              >
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors"
-                  style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors leading-snug">
-                    Av Paseo La Niña 103, Fracc. Las Américas
-                  </p>
-                  <p className="font-manrope text-xs text-white/40 mt-0.5">
-                    94299 Boca del Río, Veracruz · <span className="underline underline-offset-2">Ver en Google Maps</span>
-                  </p>
-                </div>
+              {/* Address link */}
+              <a href="https://maps.google.com/?q=Av+Paseo+La+Ni%C3%B1a+103%2C+Boca+del+R%C3%ADo%2C+Veracruz+94299"
+                target="_blank" rel="noopener noreferrer"
+                className="flex items-start gap-2.5 group">
+                <svg className="w-4 h-4 flex-shrink-0 mt-0.5 transition-colors" style={{ color: 'var(--accent)' }}
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+                <p className="font-manrope text-xs text-white/50 group-hover:text-white/80 transition-colors leading-relaxed underline underline-offset-2 decoration-white/20">
+                  Av Paseo La Niña 103, Fracc. Las Américas, 94299 Boca del Río, Ver.
+                </p>
               </a>
 
-              {/* Appointment CTA card */}
-              <div className="rounded-2xl p-6" style={{ background: 'var(--cta-card)', border: '1px solid var(--card-border)' }}>
-                <p className="font-space text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--accent)' }}>
-                  ¿Listo para tu cita?
-                </p>
-                <p className="font-manrope text-sm text-white/60 mb-5 leading-relaxed">
-                  Contáctanos por WhatsApp o teléfono y agenda tu estudio de función respiratoria.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <a
-                    href="https://wa.me/522215878583"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 font-space font-semibold text-sm px-5 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
-                    style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}
-                  >
-                    <WhatsAppIcon className="w-4 h-4" />
-                    WhatsApp
-                  </a>
-                  <a
-                    href="tel:2222251062"
-                    className="flex-1 inline-flex items-center justify-center gap-2 font-space font-semibold text-sm px-5 py-3 rounded-xl transition-all duration-200"
-                    style={{ color: 'var(--accent)', border: '1px solid var(--icon-border)' }}
-                  >
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3.09a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.14 7.85a16 16 0 006.25 6.25l1.21-1.21a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
-                    </svg>
-                    Llamar
-                  </a>
-                </div>
-              </div>
+              {/* Quick-dial CTA */}
+              <a href="tel:2222251062"
+                className="flex items-center justify-center gap-2 font-space font-semibold text-sm py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+                style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3.09a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.14 7.85a16 16 0 006.25 6.25l1.21-1.21a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
+                </svg>
+                Llamar ahora
+              </a>
             </div>
           </FadeIn>
         </div>

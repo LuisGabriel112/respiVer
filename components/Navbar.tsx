@@ -40,12 +40,30 @@ function MoonIcon() {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
   const { theme, toggle } = useTheme()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Track active section via IntersectionObserver
+  useEffect(() => {
+    const ids = NAV_LINKS.map(l => l.href.slice(1))
+    const observers: IntersectionObserver[] = []
+    ids.forEach(id => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
+        { rootMargin: '-35% 0px -55% 0px', threshold: 0 }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+    return () => observers.forEach(o => o.disconnect())
   }, [])
 
   const accentColor = 'var(--accent)'
@@ -84,20 +102,26 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="relative font-space text-sm font-medium transition-colors duration-200 group"
-                style={{ color: 'var(--text)', opacity: 0.7 }}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)', e.currentTarget.style.opacity = '1')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text)', e.currentTarget.style.opacity = '0.7')}
-              >
-                {link.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full"
-                  style={{ background: 'var(--accent)' }} />
-              </a>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = activeSection === link.href.slice(1)
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive ? 'true' : undefined}
+                  className="relative font-space text-sm font-medium transition-colors duration-200 group"
+                  style={{ color: isActive ? 'var(--accent)' : 'var(--text)', opacity: isActive ? 1 : 0.7 }}
+                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.opacity = '1' }}
+                  onMouseLeave={e => { e.currentTarget.style.color = isActive ? 'var(--accent)' : 'var(--text)'; e.currentTarget.style.opacity = isActive ? '1' : '0.7' }}
+                >
+                  {link.label}
+                  <span
+                    className="absolute -bottom-0.5 left-0 h-px transition-all duration-300"
+                    style={{ background: 'var(--accent)', width: isActive ? '100%' : '0%' }}
+                  />
+                </a>
+              )
+            })}
 
             {/* Theme toggle */}
             <motion.button

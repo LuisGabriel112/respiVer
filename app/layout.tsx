@@ -65,6 +65,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://maps.google.com" />
       </head>
       <body className="font-manrope antialiased overflow-x-hidden">
+        {/* Skip to content — accessibility */}
+        <a href="#main-content" className="skip-to-content">Saltar al contenido</a>
         {/* Inline script runs synchronously before render — prevents FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
