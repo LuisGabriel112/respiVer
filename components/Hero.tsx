@@ -24,17 +24,18 @@ const word = {
 }
 
 // Static particle data — avoids hydration mismatch
+// mobileOnly: false = always visible | mobileOnly: true = hidden on mobile (sm:block)
 const PARTICLES = [
-  { w: 3, h: 3, top: '12%', left: '8%',  delay: 0,   dur: 6   },
-  { w: 2, h: 2, top: '28%', left: '92%', delay: 1.2, dur: 7.5 },
-  { w: 4, h: 4, top: '65%', left: '5%',  delay: 0.8, dur: 5   },
-  { w: 2, h: 2, top: '78%', left: '88%', delay: 2,   dur: 8   },
-  { w: 3, h: 3, top: '45%', left: '95%', delay: 0.4, dur: 6.5 },
-  { w: 2, h: 2, top: '18%', left: '55%', delay: 1.8, dur: 7   },
-  { w: 3, h: 3, top: '88%', left: '40%', delay: 0.6, dur: 5.5 },
-  { w: 2, h: 2, top: '55%', left: '18%', delay: 2.5, dur: 9   },
-  { w: 4, h: 4, top: '35%', left: '72%', delay: 1,   dur: 6   },
-  { w: 2, h: 2, top: '92%', left: '70%', delay: 3,   dur: 7   },
+  { w: 3, h: 3, top: '12%', left: '8%',  delay: 0,   dur: 6,   mobileHide: false },
+  { w: 2, h: 2, top: '28%', left: '92%', delay: 1.2, dur: 7.5, mobileHide: false },
+  { w: 4, h: 4, top: '65%', left: '5%',  delay: 0.8, dur: 5,   mobileHide: false },
+  { w: 2, h: 2, top: '78%', left: '88%', delay: 2,   dur: 8,   mobileHide: false },
+  { w: 3, h: 3, top: '45%', left: '95%', delay: 0.4, dur: 6.5, mobileHide: false },
+  { w: 2, h: 2, top: '18%', left: '55%', delay: 1.8, dur: 7,   mobileHide: true  },
+  { w: 3, h: 3, top: '88%', left: '40%', delay: 0.6, dur: 5.5, mobileHide: true  },
+  { w: 2, h: 2, top: '55%', left: '18%', delay: 2.5, dur: 9,   mobileHide: true  },
+  { w: 4, h: 4, top: '35%', left: '72%', delay: 1,   dur: 6,   mobileHide: true  },
+  { w: 2, h: 2, top: '92%', left: '70%', delay: 3,   dur: 7,   mobileHide: true  },
 ]
 
 const BADGES = [
@@ -83,7 +84,7 @@ export default function Hero() {
         {PARTICLES.map((p, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full"
+            className={`absolute rounded-full${p.mobileHide ? ' hidden sm:block' : ''}`}
             style={{ background: 'var(--accent)', width: p.w, height: p.h, top: p.top, left: p.left, opacity: 0.18 }}
             animate={{ y: [0, -18, 0], opacity: [0.18, 0.45, 0.18] }}
             transition={{ duration: p.dur, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}

@@ -1,12 +1,15 @@
+import dynamic from 'next/dynamic'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import Ticker from '@/components/Ticker'
-import StatsSection from '@/components/StatsSection'
-import WhenSection from '@/components/WhenSection'
-import StudiesSection from '@/components/StudiesSection'
-import GallerySection from '@/components/GallerySection'
-import ContactFooter from '@/components/ContactFooter'
 import ScrollProgress from '@/components/ScrollProgress'
+
+// Below-fold sections — dynamically imported so their JS doesn't block initial load
+const Ticker = dynamic(() => import('@/components/Ticker'))
+const StatsSection = dynamic(() => import('@/components/StatsSection'))
+const WhenSection = dynamic(() => import('@/components/WhenSection'))
+const StudiesSection = dynamic(() => import('@/components/StudiesSection'))
+const GallerySection = dynamic(() => import('@/components/GallerySection'))
+const ContactFooter = dynamic(() => import('@/components/ContactFooter'))
 
 export default function Home() {
   return (

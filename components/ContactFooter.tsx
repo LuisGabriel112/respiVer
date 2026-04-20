@@ -1,7 +1,47 @@
 'use client'
 
 import Image from 'next/image'
+import { useRef, useState, useEffect } from 'react'
 import { FadeIn } from './FadeIn'
+
+function LazyMap() {
+  const ref = useRef<HTMLDivElement>(null)
+  const [load, setLoad] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setLoad(true); obs.disconnect() } },
+      { rootMargin: '200px' }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className="absolute inset-0 w-full h-full">
+      {load ? (
+        <iframe
+          title="Ubicación RESPIVER"
+          src="https://maps.google.com/maps?q=Av+Paseo+La+Ni%C3%B1a+103%2C+Fraccionamiento+Las+Americas%2C+Boca+del+R%C3%ADo%2C+Veracruz+94299%2C+M%C3%A9xico&output=embed&z=16&hl=es"
+          width="100%"
+          height="100%"
+          referrerPolicy="no-referrer-when-downgrade"
+          className="absolute inset-0 w-full h-full"
+          style={{ border: 0 }}
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center" style={{ background: 'var(--secondary-sm)' }}>
+          <svg className="w-8 h-8 opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+      )}
+    </div>
+  )
+}
 
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -172,16 +212,7 @@ export default function ContactFooter() {
               {/* Google Maps embed */}
               <div className="flex-1 min-h-[280px] rounded-2xl overflow-hidden relative"
                 style={{ border: '1px solid var(--card-border)' }}>
-                <iframe
-                  title="Ubicación RESPIVER"
-                  src="https://maps.google.com/maps?q=Av+Paseo+La+Ni%C3%B1a+103%2C+Fraccionamiento+Las+Americas%2C+Boca+del+R%C3%ADo%2C+Veracruz+94299%2C+M%C3%A9xico&output=embed&z=16&hl=es"
-                  width="100%"
-                  height="100%"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="absolute inset-0 w-full h-full"
-                  style={{ border: 0 }}
-                />
+                <LazyMap />
               </div>
 
               {/* Dirección */}

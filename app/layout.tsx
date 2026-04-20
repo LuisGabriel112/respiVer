@@ -59,6 +59,11 @@ export default function RootLayout({
       lang="es"
       className={`${plusJakartaSans.variable} ${manrope.variable} ${spaceGrotesk.variable}`}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://maps.google.com" />
+      </head>
       <body className="font-manrope antialiased overflow-x-hidden">
         {/* Inline script runs synchronously before render — prevents FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
