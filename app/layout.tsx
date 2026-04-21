@@ -9,6 +9,9 @@ const siteUrl = process.env.VERCEL_URL
   : 'https://respiver.mx'
 
 export const metadata: Metadata = {
+  verification: {
+    google: 'jfJZNKqGSIGBXwkCICtNyplnSR0AmeBL0nuClBguKdE',
+  },
   metadataBase: new URL(siteUrl),
   title: 'RESPIVER | Unidad de Medicina Respiratoria',
   description:
