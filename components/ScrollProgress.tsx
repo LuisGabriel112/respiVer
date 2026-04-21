@@ -22,6 +22,7 @@ export default function ScrollProgress() {
         height: 3,
         zIndex: 200,
         transformOrigin: '0%',
+        willChange: 'transform',
         background: 'linear-gradient(90deg, var(--accent), var(--accent-2))',
         boxShadow: '0 0 14px color-mix(in srgb, var(--accent) 75%, transparent)',
       }}

@@ -93,7 +93,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://vitals.vercel-insights.com" />
         <link rel="dns-prefetch" href="https://maps.google.com" />
+        <link rel="preload" href="/hero-respiratory.svg" as="image" type="image/svg+xml" />
       </head>
       <body className="font-manrope antialiased overflow-x-hidden">
         {/* Skip to content — accessibility */}
