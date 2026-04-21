@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { plusJakartaSans, manrope, spaceGrotesk } from '@/lib/fonts'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
 const siteUrl = process.env.VERCEL_URL
@@ -51,6 +52,30 @@ export const metadata: Metadata = {
   },
 }
 
+const medicalClinicSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  name: 'RESPIVER – Unidad de Medicina Respiratoria',
+  description:
+    'Especialistas en pruebas de función respiratoria en Veracruz. Diagnóstico y seguimiento de asma, EPOC, fibrosis pulmonar, apnea del sueño y más.',
+  url: 'https://respiver.mx',
+  telephone: '+52-229-000-0000',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Veracruz',
+    addressRegion: 'Veracruz',
+    addressCountry: 'MX',
+  },
+  medicalSpecialty: 'Pulmonary',
+  availableService: [
+    { '@type': 'MedicalTest', name: 'Espirometría' },
+    { '@type': 'MedicalTest', name: 'Pletismografía' },
+    { '@type': 'MedicalTest', name: 'DLCO' },
+    { '@type': 'MedicalTest', name: 'FeNO' },
+    { '@type': 'MedicalTest', name: 'Polisomnografía' },
+  ],
+}
+
 // Runs before first paint — prevents FOUC on dark mode default
 const themeScript = `(function(){try{var t=localStorage.getItem('respiver-theme');if(t!=='light'){document.documentElement.classList.add('dark');}}catch(e){}})();`
 
@@ -74,9 +99,14 @@ export default function RootLayout({
         <a href="#main-content" className="skip-to-content">Saltar al contenido</a>
         {/* Inline script runs synchronously before render — prevents FOUC */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalClinicSchema) }}
+        />
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   )

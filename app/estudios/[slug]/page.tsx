@@ -41,8 +41,34 @@ export default function StudyPage({ params }: { params: { slug: string } }) {
     )
   }
 
+  const descriptionSnippet = study.description.split('\n')[0].slice(0, 160)
+
+  const medicalTestSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalTest',
+    name: study.name,
+    description: descriptionSnippet,
+    usedToDiagnose: study.indications.map((indication) => ({
+      '@type': 'MedicalCondition',
+      name: indication,
+    })),
+    usesDevice: {
+      '@type': 'MedicalDevice',
+      name: study.name,
+    },
+    performer: {
+      '@type': 'MedicalClinic',
+      name: 'RESPIVER – Unidad de Medicina Respiratoria',
+      url: 'https://respiver.mx',
+    },
+  }
+
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalTestSchema) }}
+      />
       <Navbar />
       <StudyPageContent study={study} />
     </main>
