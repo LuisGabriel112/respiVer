@@ -3,8 +3,12 @@ import { plusJakartaSans, manrope, spaceGrotesk } from '@/lib/fonts'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import './globals.css'
 
+const siteUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : 'https://respiver.mx'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://respiver.mx'),
+  metadataBase: new URL(siteUrl),
   title: 'RESPIVER | Unidad de Medicina Respiratoria',
   description:
     'Especialistas en pruebas de función respiratoria en Veracruz. Tecnología avanzada para el diagnóstico y seguimiento de asma, EPOC, fibrosis pulmonar, apnea del sueño y más.',
