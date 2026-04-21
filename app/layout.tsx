@@ -4,9 +4,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
-const siteUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'https://respiver.mx'
+const siteUrl = 'https://respi-ver.vercel.app'
 
 export const metadata: Metadata = {
   verification: {
@@ -61,7 +59,7 @@ const medicalClinicSchema = {
   name: 'RESPIVER – Unidad de Medicina Respiratoria',
   description:
     'Especialistas en pruebas de función respiratoria en Veracruz. Diagnóstico y seguimiento de asma, EPOC, fibrosis pulmonar, apnea del sueño y más.',
-  url: 'https://respiver.mx',
+  url: 'https://respi-ver.vercel.app',
   telephone: '+52-229-000-0000',
   address: {
     '@type': 'PostalAddress',

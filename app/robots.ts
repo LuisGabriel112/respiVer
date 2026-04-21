@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://respiver.mx/sitemap.xml',
+    sitemap: 'https://respi-ver.vercel.app/sitemap.xml',
   }
 }

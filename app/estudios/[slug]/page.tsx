@@ -59,7 +59,7 @@ export default function StudyPage({ params }: { params: { slug: string } }) {
     performer: {
       '@type': 'MedicalClinic',
       name: 'RESPIVER – Unidad de Medicina Respiratoria',
-      url: 'https://respiver.mx',
+      url: 'https://respi-ver.vercel.app',
     },
   }
 
