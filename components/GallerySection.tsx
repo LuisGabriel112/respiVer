@@ -1,11 +1,11 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FadeIn } from './FadeIn'
 
-// Número de placeholders por categoría
-const EQUIPMENT_SLOTS = 6
-const CLINIC_SLOTS = 5
+const EQUIPMENT_SLOTS = 3
+const CLINIC_SLOTS = 3
 
 function ComingSoonCard({
   index,
@@ -164,8 +164,8 @@ export default function GallerySection() {
             <span className="text-gradient">instalaciones y equipo</span>
           </h2>
           <p className="font-manrope text-lg text-white/55">
-            Estamos preparando contenido visual de nuestros espacios y tecnología.
-            Vuelve pronto para descubrirlo.
+            Tecnología de vanguardia y espacios diseñados para la comodidad del paciente
+            y la excelencia clínica.
           </p>
         </FadeIn>
 
@@ -183,14 +183,71 @@ export default function GallerySection() {
             }
           />
 
-          {/* Grid equipamiento — layout asimétrico */}
+          {/* Grid equipamiento */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {/* Tarjeta grande */}
-            <div className="col-span-2 row-span-2">
-              <ComingSoonCard index={0} delay={0} tall />
-            </div>
-            {Array.from({ length: EQUIPMENT_SLOTS - 1 }).map((_, i) => (
-              <ComingSoonCard key={i + 1} index={i + 1} delay={(i + 1) * 0.07} />
+            {/* Espirómetro — tarjeta grande */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="col-span-2 row-span-2 relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 320 }}
+            >
+              <Image src="/estudios/espirometro.png" alt="Espirómetro BEOMED — pruebas de función pulmonar"
+                fill className="object-contain p-4" style={{ background: 'var(--card-bg)' }} />
+              <div className="absolute bottom-0 inset-x-0 p-3"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/80">Espirómetro</p>
+              </div>
+            </motion.div>
+            {/* Pletismógrafo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
+            >
+              <Image src="/estudios/pletismografo.png" alt="Pletismógrafo corporal total BEOMED"
+                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
+              <div className="absolute bottom-0 inset-x-0 p-2.5"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/80">Pletismógrafo</p>
+              </div>
+            </motion.div>
+            {/* DLCO */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
+            >
+              <Image src="/estudios/dlco.png" alt="Analizador DLCO Thorasys"
+                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
+              <div className="absolute bottom-0 inset-x-0 p-2.5"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/80">Difusión DLCO</p>
+              </div>
+            </motion.div>
+            {/* FeNO */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.21, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
+            >
+              <Image src="/estudios/feno.png" alt="Analizador FeNO NObreath"
+                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
+              <div className="absolute bottom-0 inset-x-0 p-2.5"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/80">FeNO NObreath</p>
+              </div>
+            </motion.div>
+            {/* Próximamente — slots restantes */}
+            {Array.from({ length: EQUIPMENT_SLOTS }).map((_, i) => (
+              <ComingSoonCard key={i} index={i} delay={(i + 4) * 0.07} />
             ))}
           </div>
         </div>
@@ -216,14 +273,41 @@ export default function GallerySection() {
             }
           />
 
-          {/* Grid clínica — layout diferente */}
+          {/* Grid clínica */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {/* Tarjeta ancha en móvil */}
-            <div className="sm:col-span-2 lg:col-span-1">
-              <ComingSoonCard index={0} delay={0} tall />
-            </div>
-            {Array.from({ length: CLINIC_SLOTS - 1 }).map((_, i) => (
-              <ComingSoonCard key={i + 1} index={i + 1} delay={(i + 1) * 0.07} />
+            {/* Paciente en pletismógrafo — tarjeta ancha */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="sm:col-span-2 lg:col-span-1 relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 320 }}
+            >
+              <Image src="/estudios/pletismografo-paciente.jpg" alt="Paciente realizando pletismografía en RESPIVER"
+                fill className="object-cover" />
+              <div className="absolute bottom-0 inset-x-0 p-3"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/90">Pletismografía en nuestras instalaciones</p>
+              </div>
+            </motion.div>
+            {/* Paciente haciendo FeNO */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -4, scale: 1.02 }}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ border: '1px solid var(--card-border)', minHeight: 280 }}
+            >
+              <Image src="/estudios/feno-paciente.jpg" alt="Paciente realizando prueba FeNO en RESPIVER"
+                fill className="object-cover object-top" />
+              <div className="absolute bottom-0 inset-x-0 p-3"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}>
+                <p className="font-space text-xs font-semibold text-white/90">Prueba FeNO en consulta</p>
+              </div>
+            </motion.div>
+            {/* Próximamente — slots restantes */}
+            {Array.from({ length: CLINIC_SLOTS }).map((_, i) => (
+              <ComingSoonCard key={i} index={i} delay={(i + 2) * 0.07} />
             ))}
           </div>
         </div>

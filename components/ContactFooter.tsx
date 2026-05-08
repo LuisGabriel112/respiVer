@@ -120,7 +120,7 @@ function ContactForm() {
 
     setTimeout(() => {
       setStatus('success')
-      window.open(`https://wa.me/522215878583?text=${text}`, '_blank', 'noopener,noreferrer')
+      window.open(`https://wa.me/522294475147?text=${text}`, '_blank', 'noopener,noreferrer')
     }, 700)
   }
 
@@ -144,7 +144,7 @@ function ContactForm() {
           Se abrió WhatsApp con tu mensaje listo. Si no se abrió automáticamente, escríbenos directamente.
         </p>
         <div className="flex gap-3 flex-wrap justify-center">
-          <a href="https://wa.me/522215878583" target="_blank" rel="noopener noreferrer"
+          <a href="https://wa.me/522294475147" target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-space font-semibold text-sm px-5 py-2.5 rounded-xl"
             style={{ background: '#25D366', color: '#fff' }}>
             <WhatsAppIcon className="w-4 h-4" />
@@ -353,7 +353,7 @@ export default function ContactFooter() {
                 <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
                   style={{ color: 'var(--accent)' }}>Contacto directo</h3>
 
-                <a href="tel:2222251062" className="flex items-center gap-3 group">
+                <a href="tel:2294475147" className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -362,19 +362,19 @@ export default function ContactFooter() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">222 225 1062</p>
+                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">229 447 5147</p>
                     <p className="font-manrope text-xs text-white/40">Teléfono</p>
                   </div>
                 </a>
 
-                <a href="https://wa.me/522215878583" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/522294475147" target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
                     <WhatsAppIcon className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">221 587 8583</p>
+                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">229 447 5147</p>
                     <p className="font-manrope text-xs text-white/40">WhatsApp</p>
                   </div>
                 </a>
@@ -454,7 +454,7 @@ export default function ContactFooter() {
               </a>
 
               {/* Quick-dial CTA */}
-              <a href="tel:2222251062"
+              <a href="tel:2294475147"
                 className="flex items-center justify-center gap-2 font-space font-semibold text-sm py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
                 style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"

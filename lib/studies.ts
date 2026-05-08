@@ -18,6 +18,7 @@ export interface Study {
   duration: string
   preparation: string[]
   clinicalSignificance: string
+  image?: string
 }
 
 export const STUDIES: Study[] = [
@@ -80,6 +81,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'Una espirometría normal permite descartar con alto grado de certeza la presencia de enfermedad pulmonar obstructiva significativa. Un patrón obstructivo persistente post-broncodilatador (FEV₁/FVC < 0.70) confirma el diagnóstico de EPOC. El grado de reducción del FEV₁ determina la severidad y orienta el tratamiento farmacológico.',
+    image: '/estudios/espirometro.png',
   },
 
   {
@@ -136,6 +138,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'Una respuesta broncodilatadora significativa (FEV₁ ≥ 12% y ≥ 200 mL) apoya fuertemente el diagnóstico de asma bronquial. En EPOC, la presencia de reversibilidad no excluye el diagnóstico pero identifica el fenotipo "overlap asma-EPOC" (ACO), que requiere tratamiento con corticosteroides inhalados desde etapas tempranas.',
+    image: '/estudios/espirometro.png',
   },
 
   {
@@ -188,6 +191,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'La diferencia VC-FVC es un indicador indirecto de atrapamiento aéreo: cuanto mayor es la diferencia, mayor es el colapso dinámico durante la espiración forzada. Esto es especialmente útil para cuantificar la obstrucción real en EPOC avanzado, donde la FVC subestima sistemáticamente la capacidad vital verdadera.',
+    image: '/estudios/espirometro.png',
   },
 
   // ─── VOLÚMENES PULMONARES ─────────────────────────────────────────────────
@@ -251,6 +255,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'Es el único método que mide con exactitud la TLC para confirmar restricción verdadera y para cuantificar el grado de hiperinsuflación en EPOC. Una TLC > 120% con RV/TLC > 40% confirma hiperinsuflación severa, que es uno de los factores pronósticos independientes más importantes en EPOC. También es indispensable para la valoración de candidatos a cirugía de reducción de volumen pulmonar.',
+    image: '/estudios/pletismografo.png',
   },
 
   // ─── FUERZA MUSCULAR ──────────────────────────────────────────────────────
@@ -400,6 +405,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'Una DLCO < 40% del predicho indica alto riesgo de desaturación durante el ejercicio y tiene implicaciones pronósticas relevantes en fibrosis pulmonar y EPOC. La velocidad de caída de la DLCO a lo largo del tiempo (≥ 10 puntos porcentuales/año) es un predictor independiente de mortalidad en fibrosis pulmonar idiopática. También es el parámetro más sensible para detectar daño alveolo-capilar antes de que aparezcan anomalías en la espirometría.',
+    image: '/estudios/dlco.png',
   },
 
   {
@@ -447,6 +453,7 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'Un FeNO > 50 ppb en un paciente con síntomas compatibles tiene un valor predictivo positivo > 90% para asma eosinofílica. En pacientes ya tratados con corticosteroides inhalados, un FeNO persistentemente elevado (> 25 ppb) sugiere mala adherencia al tratamiento, dosis insuficiente o refractariedad a esteroides, lo que puede indicar la necesidad de escalar a terapia biológica.',
+    image: '/estudios/feno.png',
   },
 
   // ─── FUNCIÓN EN EJERCICIO ─────────────────────────────────────────────────
@@ -561,6 +568,76 @@ export const STUDIES: Study[] = [
     ],
     clinicalSignificance:
       'En hipertensión arterial pulmonar, la PC6M es un criterio de evaluación de respuesta en todos los estudios clínicos principales y guía las decisiones de inicio o escalonamiento de tratamiento específico. En EPOC, una mejoría ≥ 25–30 metros tras rehabilitación pulmonar es considerada clínicamente significativa y se asocia con reducción de hospitalizaciones y mejora de la calidad de vida.',
+  },
+
+  // ─── OSCILOMETRÍA ─────────────────────────────────────────────────────────
+  {
+    slug: 'oscilometria-de-impulso',
+    name: 'Oscilometría de impulso (IOS)',
+    shortName: 'Oscilometría / IOS',
+    category: 'Mecánica Pulmonar',
+    categorySlug: 'mecanica-pulmonar',
+    tagline: 'Evalúa la mecánica pulmonar respirando con normalidad, sin maniobras forzadas',
+    description:
+      'La oscilometría de impulso (IOS) mide la resistencia y reactancia del sistema respiratorio superponiendo pequeñas oscilaciones de presión sobre la respiración tranquila del paciente. A diferencia de la espirometría, no requiere ningún esfuerzo ni maniobra forzada: el paciente simplemente respira con normalidad a través de la boquilla durante unos segundos.\n\nEsta característica la convierte en la prueba ideal para niños pequeños, adultos mayores y cualquier paciente que no pueda cooperar con las maniobras de esfuerzo máximo. Además, es la técnica más sensible para detectar obstrucción de las vías aéreas pequeñas (diámetro < 2 mm), que es la zona donde comienza la enfermedad en el asma y en el EPOC temprano, antes de que la espirometría muestre alteraciones.',
+    howItWorks: [
+      'El paciente se sienta erguido, coloca la boquilla en la boca y sujeta las mejillas con ambas manos para evitar que vibren durante la prueba.',
+      'Se adapta una pinza nasal y se le pide que respire con total normalidad, sin modificar el patrón respiratorio.',
+      'El equipo genera pequeños impulsos de presión (oscilaciones) que se superponen a la respiración del paciente de forma imperceptible.',
+      'Un transductor mide simultáneamente los cambios de presión y flujo generados a múltiples frecuencias (5 a 20 Hz).',
+      'A partir de esas mediciones se calcula la impedancia respiratoria (resistencia + reactancia) en cada frecuencia.',
+      'Se realizan 3 maniobras de 30–60 segundos para garantizar reproducibilidad.',
+    ],
+    parameters: [
+      {
+        name: 'R5 — Resistencia a 5 Hz',
+        description: 'Resistencia total del sistema respiratorio, incluyendo vías aéreas centrales y periféricas. El parámetro más sensible para detectar obstrucción difusa.',
+        reference: 'Normal: ≤ 150% del predicho',
+      },
+      {
+        name: 'R20 — Resistencia a 20 Hz',
+        description: 'Resistencia de las vías aéreas proximales (grandes bronquios). Menos sensible a la enfermedad de vías pequeñas que R5.',
+        reference: 'Normal: ≤ 150% del predicho',
+      },
+      {
+        name: 'R5–R20 — Dependencia de frecuencia',
+        description: 'Diferencia entre resistencia periférica y central. Valor elevado es el marcador más específico de obstrucción de vías aéreas pequeñas, incluso con espirometría normal.',
+        reference: 'Normal: < 0.07 kPa·s/L',
+      },
+      {
+        name: 'X5 — Reactancia a 5 Hz',
+        description: 'Refleja las propiedades elásticas del sistema respiratorio. Valores negativos elevados indican heterogeneidad ventilatoria y atrapamiento aéreo.',
+        reference: 'Normal: > −0.10 kPa·s/L (menos negativo)',
+      },
+      {
+        name: 'AX — Área de reactancia',
+        description: 'Integral del área bajo la curva de reactancia negativa. Indicador global de heterogeneidad ventilatoria y enfermedad de vías pequeñas.',
+      },
+      {
+        name: 'Fres — Frecuencia de resonancia',
+        description: 'Frecuencia a la que la reactancia es cero. Elevada en obstrucción; refleja el equilibrio entre resistencia e inercia del sistema.',
+        reference: 'Normal: < 15 Hz',
+      },
+    ],
+    indications: [
+      'Niños desde 2–3 años en quienes la espirometría no es técnicamente posible',
+      'Pacientes adultos mayores o con limitaciones para realizar maniobras forzadas',
+      'Detección de obstrucción de vías aéreas pequeñas en asma y EPOC temprano con espirometría normal',
+      'Monitoreo de asma mal controlada o de difícil tratamiento',
+      'Evaluación de respuesta broncodilatadora cuando la espirometría no es concluyente',
+      'Diagnóstico de asma ocupacional: prueba de provocación en el lugar de trabajo',
+      'Seguimiento de fibrosis pulmonar y otras enfermedades intersticiales',
+    ],
+    duration: '15–20 minutos',
+    preparation: [
+      'No fumar al menos 2 horas antes',
+      'Evitar broncodilatadores de acción corta 4 horas antes si el objetivo es medir el estado basal',
+      'No realizar ejercicio físico intenso 30 minutos antes',
+      'No se requiere esfuerzo especial; el paciente respira con normalidad durante toda la prueba',
+      'En niños, tranquilizarlos: solo respiran por un tubo, sin necesidad de esforzarse',
+    ],
+    clinicalSignificance:
+      'La oscilometría detecta obstrucción de vías aéreas pequeñas hasta 5 años antes de que aparezcan alteraciones en la espirometría, lo que permite un diagnóstico e intervención más tempranos. En asma, un R5–R20 elevado identifica pacientes con mayor riesgo de exacerbaciones a pesar de espirometría normal. En EPOC, la reactancia (X5) y el AX correlacionan mejor con la calidad de vida y la capacidad de ejercicio que el FEV₁.',
   },
 
   // ─── ESTUDIOS DEL SUEÑO ───────────────────────────────────────────────────

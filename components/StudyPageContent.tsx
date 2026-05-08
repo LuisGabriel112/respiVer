@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FadeIn, StaggerContainer, StaggerItem } from './FadeIn'
 import { useTheme } from './ThemeProvider'
@@ -255,6 +256,22 @@ export default function StudyPageContent({ study }: { study: Study }) {
           {/* ── RIGHT / SIDEBAR ─────────────────────────────────────────── */}
           <div className="space-y-6">
 
+            {/* Equipment photo */}
+            {study.image && (
+              <FadeIn direction="left" delay={0.05}>
+                <div className="rounded-2xl overflow-hidden"
+                  style={{ border: '1px solid var(--card-border)' }}>
+                  <Image
+                    src={study.image}
+                    alt={`Equipo para ${study.name}`}
+                    width={600}
+                    height={450}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </FadeIn>
+            )}
+
             {/* Indications card */}
             <FadeIn direction="left" delay={0.1}>
               <div className="rounded-2xl p-5 sm:p-6"
@@ -319,7 +336,7 @@ export default function StudyPageContent({ study }: { study: Study }) {
                 </p>
                 <div className="flex flex-col gap-2.5">
                   <a
-                    href="https://wa.me/522215878583"
+                    href="https://wa.me/522294475147"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 font-space font-semibold text-sm px-4 py-3 rounded-xl transition-all hover:-translate-y-0.5 active:translate-y-0"
@@ -329,7 +346,7 @@ export default function StudyPageContent({ study }: { study: Study }) {
                     WhatsApp
                   </a>
                   <a
-                    href="tel:2222251062"
+                    href="tel:2294475147"
                     className="inline-flex items-center justify-center gap-2 font-space font-semibold text-sm px-4 py-3 rounded-xl transition-all"
                     style={{ color: 'var(--accent)', border: '1px solid var(--icon-border)' }}
                   >

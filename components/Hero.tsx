@@ -45,8 +45,8 @@ const BADGES = [
         <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3.09a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.14 7.85a16 16 0 006.25 6.25l1.21-1.21a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
       </svg>
     ),
-    label: '222 225 1062',
-    href: 'tel:2222251062',
+    label: '229 447 5147',
+    href: 'tel:2294475147',
   },
   {
     icon: (
@@ -54,8 +54,8 @@ const BADGES = [
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.556 4.113 1.524 5.843L.057 23.07l5.348-1.43A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.273-1.536l-.378-.224-3.926 1.05 1.045-3.818-.246-.393A9.818 9.818 0 0112 2.182c5.42 0 9.818 4.398 9.818 9.818S17.42 21.818 12 21.818z"/>
       </svg>
     ),
-    label: '221 587 8583',
-    href: 'https://wa.me/522215878583',
+    label: '229 447 5147',
+    href: 'https://wa.me/522294475147',
     external: true,
   },
   {
@@ -116,15 +116,15 @@ export default function Hero() {
               variants={item}
               className="font-jakarta font-extrabold text-4xl sm:text-5xl lg:text-[3.4rem] xl:text-6xl leading-[1.08] text-white"
             >
-              Especialistas en{' '}
+              Unidad de{' '}
               <motion.span
                 variants={wordContainer}
                 initial="hidden"
                 animate="show"
                 className="inline"
-                aria-label="pruebas de función respiratoria"
+                aria-label="Fisiología y Medicina Respiratoria"
               >
-                {['pruebas', 'de', 'función', 'respiratoria'].map((w, i) => (
+                {['Fisiología', 'y', 'Medicina', 'Respiratoria'].map((w, i) => (
                   <motion.span
                     key={i}
                     variants={word}
@@ -147,7 +147,7 @@ export default function Hero() {
               Contamos con la tecnología más avanzada de Veracruz para el diagnóstico y
               seguimiento de{' '}
               <span className="text-white/90 font-medium">
-                asma, EPOC, fibrosis pulmonar, apnea obstructiva del sueño, enfermedades
+                asma, EPOC, fibrosis pulmonar, medicina del sueño, enfermedades
                 neuromusculares
               </span>{' '}
               con afección respiratoria y muchas más.

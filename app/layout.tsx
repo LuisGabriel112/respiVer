@@ -60,7 +60,7 @@ const medicalClinicSchema = {
   description:
     'Especialistas en pruebas de función respiratoria en Veracruz. Diagnóstico y seguimiento de asma, EPOC, fibrosis pulmonar, apnea del sueño y más.',
   url: 'https://respi-ver.vercel.app',
-  telephone: '+52-229-000-0000',
+  telephone: '+52-229-447-5147',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Veracruz',
