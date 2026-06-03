@@ -11,7 +11,7 @@ function WhatsAppIcon() {
   )
 }
 
-export default function FloatingCTA() {
+export default function FloatingCTA({ whatsappNumero }: { whatsappNumero: string }) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function FloatingCTA() {
             style={{ background: '#25D366' }} aria-hidden="true" />
 
           <a
-            href="https://wa.me/522294475147?text=Hola%20RESPIVER%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20sus%20servicios."
+            href={`https://wa.me/${whatsappNumero}?text=Hola%20RESPIVER%2C%20me%20gustar%C3%ADa%20obtener%20informaci%C3%B3n%20sobre%20sus%20servicios.`}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Contactar por WhatsApp"

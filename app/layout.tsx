@@ -89,6 +89,7 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${plusJakartaSans.variable} ${manrope.variable} ${spaceGrotesk.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FadeIn } from './FadeIn'
+import type { GaleriaData } from '@/lib/site-config'
 
 const EQUIPMENT_SLOTS = 3
 const CLINIC_SLOTS = 3
@@ -135,7 +136,10 @@ function SectionHeader({
   )
 }
 
-export default function GallerySection() {
+export default function GallerySection({ galeria }: { galeria: GaleriaData }) {
+  const equipos = galeria.equipos
+  const instalaciones = galeria.instalaciones
+  const [equipoPrincipal, ...equipoResto] = equipos
   return (
     <section
       id="galeria"
@@ -185,69 +189,43 @@ export default function GallerySection() {
 
           {/* Grid equipamiento */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {/* Espirómetro — tarjeta grande */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="col-span-2 row-span-2 relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 320 }}
-            >
-              <Image src="/estudios/espirometro.png" alt="Espirómetro BEOMED — pruebas de función pulmonar"
-                fill className="object-contain p-4" style={{ background: 'var(--card-bg)' }} />
-              <div className="absolute bottom-0 inset-x-0 p-3"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/80">Espirómetro</p>
-              </div>
-            </motion.div>
-            {/* Pletismógrafo */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
-            >
-              <Image src="/estudios/pletismografo.png" alt="Pletismógrafo corporal total BEOMED"
-                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
-              <div className="absolute bottom-0 inset-x-0 p-2.5"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/80">Pletismógrafo</p>
-              </div>
-            </motion.div>
-            {/* DLCO */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
-            >
-              <Image src="/estudios/dlco.png" alt="Analizador DLCO Thorasys"
-                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
-              <div className="absolute bottom-0 inset-x-0 p-2.5"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/80">Difusión DLCO</p>
-              </div>
-            </motion.div>
-            {/* FeNO */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.21, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
-            >
-              <Image src="/estudios/feno.png" alt="Analizador FeNO NObreath"
-                fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
-              <div className="absolute bottom-0 inset-x-0 p-2.5"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/80">FeNO NObreath</p>
-              </div>
-            </motion.div>
+            {/* Foto principal (destacada o primera) */}
+            {equipoPrincipal && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="col-span-2 row-span-2 relative rounded-2xl overflow-hidden"
+                style={{ border: '1px solid var(--card-border)', minHeight: 320 }}
+              >
+                <Image src={equipoPrincipal.imagen} alt={equipoPrincipal.titulo}
+                  fill className="object-contain p-4" style={{ background: 'var(--card-bg)' }} />
+                <div className="absolute bottom-0 inset-x-0 p-3"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                  <p className="font-space text-xs font-semibold text-white/80">{equipoPrincipal.titulo}</p>
+                </div>
+              </motion.div>
+            )}
+            {/* Resto de equipos */}
+            {equipoResto.map((eq, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: (i + 1) * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="relative rounded-2xl overflow-hidden"
+                style={{ border: '1px solid var(--card-border)', minHeight: 180 }}
+              >
+                <Image src={eq.imagen} alt={eq.titulo}
+                  fill className="object-contain p-3" style={{ background: 'var(--card-bg)' }} />
+                <div className="absolute bottom-0 inset-x-0 p-2.5"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent)' }}>
+                  <p className="font-space text-xs font-semibold text-white/80">{eq.titulo}</p>
+                </div>
+              </motion.div>
+            ))}
             {/* Próximamente — slots restantes */}
             {Array.from({ length: EQUIPMENT_SLOTS }).map((_, i) => (
-              <ComingSoonCard key={i} index={i} delay={(i + 4) * 0.07} />
+              <ComingSoonCard key={i} index={i} delay={(equipos.length + i) * 0.07} />
             ))}
           </div>
         </div>
@@ -273,41 +251,27 @@ export default function GallerySection() {
             }
           />
 
-          {/* Grid clínica */}
+          {/* Grid clínica — dinámico desde CMS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {/* Paciente en pletismógrafo — tarjeta ancha */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="sm:col-span-2 lg:col-span-1 relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 320 }}
-            >
-              <Image src="/estudios/pletismografo-paciente.jpg" alt="Paciente realizando pletismografía en RESPIVER"
-                fill className="object-cover" />
-              <div className="absolute bottom-0 inset-x-0 p-3"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/90">Pletismografía en nuestras instalaciones</p>
-              </div>
-            </motion.div>
-            {/* Paciente haciendo FeNO */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="relative rounded-2xl overflow-hidden"
-              style={{ border: '1px solid var(--card-border)', minHeight: 280 }}
-            >
-              <Image src="/estudios/feno-paciente.jpg" alt="Paciente realizando prueba FeNO en RESPIVER"
-                fill className="object-cover object-top" />
-              <div className="absolute bottom-0 inset-x-0 p-3"
-                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}>
-                <p className="font-space text-xs font-semibold text-white/90">Prueba FeNO en consulta</p>
-              </div>
-            </motion.div>
-            {/* Próximamente — slots restantes */}
+            {instalaciones.map((foto, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className={`${i === 0 ? 'sm:col-span-2 lg:col-span-1' : ''} relative rounded-2xl overflow-hidden`}
+                style={{ border: '1px solid var(--card-border)', minHeight: i === 0 ? 320 : 280 }}
+              >
+                <Image src={foto.imagen} alt={foto.titulo}
+                  fill className="object-cover" />
+                <div className="absolute bottom-0 inset-x-0 p-3"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65), transparent)' }}>
+                  <p className="font-space text-xs font-semibold text-white/90">{foto.titulo}</p>
+                </div>
+              </motion.div>
+            ))}
+            {/* Próximamente */}
             {Array.from({ length: CLINIC_SLOTS }).map((_, i) => (
-              <ComingSoonCard key={i} index={i} delay={(i + 2) * 0.07} />
+              <ComingSoonCard key={i} index={i} delay={(instalaciones.length + i) * 0.07} />
             ))}
           </div>
         </div>

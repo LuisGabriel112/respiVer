@@ -1,0 +1,30 @@
+name: 'Presión espiratoria máxima (PEmax)'
+shortName: 'PEmax'
+order: 6
+category: 'Fuerza Muscular Respiratoria'
+categorySlug: 'fuerza-muscular'
+tagline: 'Evalúa la potencia de los músculos que generan la tos y la espiración'
+description: 'La PEmax mide la fuerza de los músculos espiratorios: principalmente los abdominales e intercostales internos. Esenciales para generar una tos efectiva.'
+howItWorks:
+  - 'El paciente inhala completamente hasta la capacidad pulmonar total.'
+  - 'Se ocluye la vía aérea.'
+  - 'El paciente realiza un esfuerzo espiratorio máximo sostenido.'
+  - 'Se repiten al menos 3 maniobras.'
+parameters:
+  - name: 'PEmax (cmH₂O)'
+    description: 'Presión positiva máxima generada durante el esfuerzo espiratorio.'
+    reference: 'Normal: > 120 cmH₂O hombres; > 85 cmH₂O mujeres'
+  - name: 'PCF — Flujo Pico de Tos (complementario)'
+    description: 'Velocidad máxima del flujo de aire durante una tos voluntaria.'
+    reference: 'PCF ≥ 270 L/min tos efectiva; < 160 L/min tos inefectiva'
+indications:
+  - 'Enfermedades neuromusculares con compromiso espiratorio'
+  - 'Evaluación del riesgo de retención de secreciones'
+  - 'Síndrome de Guillain-Barré'
+  - 'Distrofias musculares'
+duration: '15–20 minutos'
+preparation:
+  - 'Evitar ejercicio físico intenso 2 horas antes'
+  - 'Informar si hay dolor torácico o abdominal'
+clinicalSignificance: 'Una PEmax disminuida predice mayor riesgo de complicaciones respiratorias y neumonía aspirativa.'
+image: ''

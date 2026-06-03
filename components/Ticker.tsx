@@ -2,25 +2,8 @@
 
 import { motion } from 'framer-motion'
 
-const ITEMS = [
-  'Espirometría Simple',
-  'Pletismografía Corporal',
-  'DLCO',
-  'FeNO',
-  'PImax · PEmax',
-  'Polisomnografía',
-  'Poligrafía Respiratoria',
-  'Caminata 6 Minutos',
-  'Saturometría',
-  'Espirometría BD',
-  'Espirometría Lenta',
-  'Medicina Respiratoria',
-]
-
-// Duplicate 4× so the seamless loop always has enough content
-const TRACK = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS]
-
-export default function Ticker() {
+export default function Ticker({ items }: { items: string[] }) {
+  const TRACK = [...items, ...items, ...items, ...items]
   return (
     <div
       className="relative overflow-hidden py-3.5 select-none"
@@ -38,7 +21,7 @@ export default function Ticker() {
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: 28, ease: 'linear', repeat: Infinity }}
       >
-        {TRACK.map((name, i) => (
+        {TRACK.map((name: string, i: number) => (
           <span
             key={i}
             className="inline-flex items-center gap-3 font-space text-[11px] font-medium tracking-widest uppercase text-white/30"

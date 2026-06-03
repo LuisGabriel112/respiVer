@@ -87,7 +87,7 @@ const inputBase = {
   transition: 'border-color 0.2s',
 }
 
-function ContactForm() {
+function ContactForm({ whatsappNumero }: { whatsappNumero: string }) {
   const [form, setForm] = useState<FormState>({ nombre: '', telefono: '', motivo: 'Agendar cita', mensaje: '' })
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<FormStatus>('idle')
@@ -120,7 +120,7 @@ function ContactForm() {
 
     setTimeout(() => {
       setStatus('success')
-      window.open(`https://wa.me/522294475147?text=${text}`, '_blank', 'noopener,noreferrer')
+      window.open(`https://wa.me/${whatsappNumero}?text=${text}`, '_blank', 'noopener,noreferrer')
     }, 700)
   }
 
@@ -144,7 +144,7 @@ function ContactForm() {
           Se abrió WhatsApp con tu mensaje listo. Si no se abrió automáticamente, escríbenos directamente.
         </p>
         <div className="flex gap-3 flex-wrap justify-center">
-          <a href="https://wa.me/522294475147" target="_blank" rel="noopener noreferrer"
+          <a href={`https://wa.me/${whatsappNumero}`} target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-space font-semibold text-sm px-5 py-2.5 rounded-xl"
             style={{ background: '#25D366', color: '#fff' }}>
             <WhatsAppIcon className="w-4 h-4" />
@@ -310,7 +310,9 @@ function ContactForm() {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function ContactFooter() {
+import type { Contacto } from '@/lib/site-config'
+
+export default function ContactFooter({ contacto }: { contacto: Contacto }) {
   return (
     <footer id="contacto" className="relative" style={{ background: 'var(--footer-bg)' }}>
       {/* Top wave */}
@@ -353,7 +355,7 @@ export default function ContactFooter() {
                 <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
                   style={{ color: 'var(--accent)' }}>Contacto directo</h3>
 
-                <a href="tel:2294475147" className="flex items-center gap-3 group">
+                <a href={`tel:${contacto.telefono_href}`} className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -362,22 +364,39 @@ export default function ContactFooter() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">229 447 5147</p>
+                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">{contacto.telefono_display}</p>
                     <p className="font-manrope text-xs text-white/40">Teléfono</p>
                   </div>
                 </a>
 
-                <a href="https://wa.me/522294475147" target="_blank" rel="noopener noreferrer"
+                <a href={`https://wa.me/${contacto.whatsapp_numero}`} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-3 group">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
                     style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
                     <WhatsAppIcon className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">229 447 5147</p>
+                    <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">{contacto.whatsapp_display}</p>
                     <p className="font-manrope text-xs text-white/40">WhatsApp</p>
                   </div>
                 </a>
+
+                {contacto.email && (
+                  <a href={`mailto:${contacto.email}`} className="flex items-center gap-3 group">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
+                      style={{ background: 'var(--icon-bg-2)', color: 'var(--accent)' }}>
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-manrope text-sm text-white/75 group-hover:text-white transition-colors">{contacto.email}</p>
+                      <p className="font-manrope text-xs text-white/40">Correo</p>
+                    </div>
+                  </a>
+                )}
 
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -388,8 +407,8 @@ export default function ContactFooter() {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-manrope text-sm text-white/75 leading-snug">Av Paseo La Niña 103, Fracc. Las Américas</p>
-                    <p className="font-manrope text-xs text-white/40">94299 Boca del Río, Veracruz</p>
+                    <p className="font-manrope text-sm text-white/75 leading-snug">{contacto.direccion_linea1}</p>
+                    <p className="font-manrope text-xs text-white/40">{contacto.direccion_linea2}</p>
                   </div>
                 </div>
               </div>
@@ -400,8 +419,8 @@ export default function ContactFooter() {
                   style={{ color: 'var(--accent)' }}>Redes sociales</h3>
                 <div className="flex gap-3">
                   {[
-                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: '@neumoclinical' },
-                    { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: '@neumoclinical' },
+                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: contacto.facebook_handle },
+                    { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: contacto.instagram_handle },
                   ].map(({ icon, label, handle }) => (
                     <a key={label} href="#" target="_blank" rel="noopener noreferrer"
                       aria-label={`${label} ${handle}`}
@@ -423,7 +442,7 @@ export default function ContactFooter() {
             <div className="space-y-5 h-full">
               <h3 className="font-space text-xs font-semibold tracking-[0.15em] uppercase"
                 style={{ color: 'var(--accent)' }}>Envíanos un mensaje</h3>
-              <ContactForm />
+              <ContactForm whatsappNumero={contacto.whatsapp_numero} />
             </div>
           </FadeIn>
 
@@ -454,7 +473,7 @@ export default function ContactFooter() {
               </a>
 
               {/* Quick-dial CTA */}
-              <a href="tel:2294475147"
+              <a href={`tel:${contacto.telefono_href}`}
                 className="flex items-center justify-center gap-2 font-space font-semibold text-sm py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
                 style={{ background: 'var(--accent)', color: 'var(--accent-fg)' }}>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"

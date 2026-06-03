@@ -1,0 +1,31 @@
+name: 'Fracción exhalada de óxido nítrico (FeNO)'
+shortName: 'FeNO'
+order: 8
+category: 'Intercambio de O₂ y Biomarcadores'
+categorySlug: 'intercambio-gases'
+tagline: 'Detecta inflamación eosinofílica de las vías aéreas de forma no invasiva'
+description: 'El FeNO es un biomarcador de inflamación eosinofílica tipo 2 en las vías aéreas. Es la prueba más rápida e indolora del catálogo: dura apenas 10 segundos.'
+howItWorks:
+  - 'El paciente inhala hasta la capacidad pulmonar total.'
+  - 'Exhala a través del analizador a flujo constante de 50 mL/s durante 6–10 segundos.'
+  - 'Un sensor mide la concentración de NO en partes por billón.'
+  - 'Se promedian 2–3 maniobras reproducibles.'
+parameters:
+  - name: 'FeNO (ppb) — Valor en partes por billón'
+    description: 'Concentración de óxido nítrico en el aire exhalado alveolar.'
+    reference: '< 25 ppb: Normal | 25–50 ppb: Zona gris | > 50 ppb: Inflamación eosinofílica'
+  - name: 'Predicción de respuesta a corticosteroides'
+    description: 'FeNO > 50 ppb predice respuesta al tratamiento con sensibilidad del ~90%.'
+    reference: ''
+indications:
+  - 'Diagnóstico de asma eosinofílica'
+  - 'Predicción de respuesta a corticosteroides inhalados'
+  - 'Monitoreo de adherencia al tratamiento'
+  - 'Selección de candidatos para tratamiento biológico (dupilumab)'
+duration: '5–10 minutos'
+preparation:
+  - 'No comer alimentos ricos en nitratos 1 hora antes'
+  - 'No realizar ejercicio físico intenso 1 hora antes'
+  - 'No fumar 1 hora antes'
+clinicalSignificance: 'FeNO > 50 ppb tiene valor predictivo positivo > 90% para asma eosinofílica.'
+image: 'feno.png'

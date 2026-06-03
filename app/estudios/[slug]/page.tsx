@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
-import { STUDIES, getStudyBySlug } from '@/lib/studies'
+import { getStudies, getStudyBySlug } from '@/lib/site-config'
 import Navbar from '@/components/Navbar'
 import StudyPageContent from '@/components/StudyPageContent'
 
 export async function generateStaticParams() {
-  return STUDIES.map((study) => ({ slug: study.slug }))
+  const studies = await getStudies()
+  return studies.map((s) => ({ slug: s.slug }))
 }
 
 export async function generateMetadata({
@@ -12,11 +13,9 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const study = getStudyBySlug(params.slug)
+  const study = await getStudyBySlug(params.slug)
   if (!study) return {}
-
   const descriptionSnippet = study.description.split('\n')[0].slice(0, 160)
-
   return {
     title: `${study.name} | RESPIVER`,
     description: descriptionSnippet,
@@ -29,10 +28,9 @@ export async function generateMetadata({
   }
 }
 
-export default function StudyPage({ params }: { params: { slug: string } }) {
-  const study = getStudyBySlug(params.slug)
+export default async function StudyPage({ params }: { params: { slug: string } }) {
+  const study = await getStudyBySlug(params.slug)
 
-  // With SSG + generateStaticParams this branch only runs for unknown slugs
   if (!study) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -48,14 +46,7 @@ export default function StudyPage({ params }: { params: { slug: string } }) {
     '@type': 'MedicalTest',
     name: study.name,
     description: descriptionSnippet,
-    usedToDiagnose: study.indications.map((indication) => ({
-      '@type': 'MedicalCondition',
-      name: indication,
-    })),
-    usesDevice: {
-      '@type': 'MedicalDevice',
-      name: study.name,
-    },
+    usesDevice: { '@type': 'MedicalDevice', name: study.name },
     performer: {
       '@type': 'MedicalClinic',
       name: 'RESPIVER – Unidad de Medicina Respiratoria',

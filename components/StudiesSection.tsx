@@ -3,118 +3,43 @@
 import Link from 'next/link'
 import { FadeIn, StaggerContainer, StaggerItem } from './FadeIn'
 import { useTheme } from './ThemeProvider'
+import type { Study } from '@/lib/studies'
 
-interface StudyLink {
-  name: string
-  slug: string
+// Iconos y colores por categoría (diseño fijo, contenido dinámico)
+const CAT_META: Record<string, { iconDark: React.ReactNode; iconLight: React.ReactNode; accentDark: string; accentLight: string }> = {
+  'mecanica-pulmonar': {
+    accentDark: '#00E5FF', accentLight: '#0284C7',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2C8.5 2 6 5 6 8c0 2 .5 3.5 1.2 5.2L5 16c-.5.8 0 1.8.9 1.8H7l.8-1.8h8.4l.8 1.8h1.1c.9 0 1.4-1 .9-1.8l-2.2-2.8C17.5 11.5 18 10 18 8c0-3-2.5-6-6-6z"/><path d="M9.5 12c.8.8 5 .8 5 0"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2C8.5 2 6 5 6 8c0 2 .5 3.5 1.2 5.2L5 16c-.5.8 0 1.8.9 1.8H7l.8-1.8h8.4l.8 1.8h1.1c.9 0 1.4-1 .9-1.8l-2.2-2.8C17.5 11.5 18 10 18 8c0-3-2.5-6-6-6z"/><path d="M9.5 12c.8.8 5 .8 5 0"/></svg>,
+  },
+  'volumenes-pulmonares': {
+    accentDark: '#7DF9FF', accentLight: '#0EA5E9',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 3h18v4H3z"/><path d="M5 7v13a1 1 0 001 1h12a1 1 0 001-1V7"/><path d="M9 7v5c0 1.1.9 2 2 2h2a2 2 0 002-2V7"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 3h18v4H3z"/><path d="M5 7v13a1 1 0 001 1h12a1 1 0 001-1V7"/><path d="M9 7v5c0 1.1.9 2 2 2h2a2 2 0 002-2V7"/></svg>,
+  },
+  'fuerza-muscular': {
+    accentDark: '#00E5FF', accentLight: '#0284C7',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 4H6"/><path d="M6 4v2a4 4 0 004 4h4a4 4 0 004-4V4"/><path d="M3 8h18"/><path d="M6 20h12"/><path d="M8 20v-6a4 4 0 018 0v6"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 4H6"/><path d="M6 4v2a4 4 0 004 4h4a4 4 0 004-4V4"/><path d="M3 8h18"/><path d="M6 20h12"/><path d="M8 20v-6a4 4 0 018 0v6"/></svg>,
+  },
+  'intercambio-gases': {
+    accentDark: '#7DF9FF', accentLight: '#0EA5E9',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>,
+  },
+  'ejercicio': {
+    accentDark: '#00E5FF', accentLight: '#0284C7',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M7 21l4-4 2 2 4-8"/><path d="M9 11l-2 4 3 1"/><path d="M15 13l2-3-3-2 1-3"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M7 21l4-4 2 2 4-8"/><path d="M9 11l-2 4 3 1"/><path d="M15 13l2-3-3-2 1-3"/></svg>,
+  },
+  'sueno': {
+    accentDark: '#7DF9FF', accentLight: '#0EA5E9',
+    iconDark: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>,
+    iconLight: <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>,
+  },
 }
 
-interface StudyCategory {
-  category: string
-  icon: React.ReactNode
-  accent: string
-  studies: StudyLink[]
-}
-
-const CATEGORIES_DARK: StudyCategory[] = [
-  {
-    category: 'Mecánica Pulmonar',
-    accent: '#00E5FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M12 2C8.5 2 6 5 6 8c0 2 .5 3.5 1.2 5.2L5 16c-.5.8 0 1.8.9 1.8H7l.8-1.8h8.4l.8 1.8h1.1c.9 0 1.4-1 .9-1.8l-2.2-2.8C17.5 11.5 18 10 18 8c0-3-2.5-6-6-6z"/>
-        <path d="M9.5 12c.8.8 5 .8 5 0"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Espirometría simple', slug: 'espirometria-simple' },
-      { name: 'Espirometría pre y post-broncodilatador', slug: 'espirometria-pre-post-broncodilatador' },
-      { name: 'Espirometría lenta', slug: 'espirometria-lenta' },
-    ],
-  },
-  {
-    category: 'Volúmenes Pulmonares',
-    accent: '#7DF9FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M3 3h18v4H3z"/>
-        <path d="M5 7v13a1 1 0 001 1h12a1 1 0 001-1V7"/>
-        <path d="M9 7v5c0 1.1.9 2 2 2h2a2 2 0 002-2V7"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Pletismografía corporal total', slug: 'pletismografia-corporal-total' },
-    ],
-  },
-  {
-    category: 'Fuerza Muscular Respiratoria',
-    accent: '#00E5FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M18 4H6"/><path d="M6 4v2a4 4 0 004 4h4a4 4 0 004-4V4"/>
-        <path d="M3 8h18"/><path d="M6 20h12"/>
-        <path d="M8 20v-6a4 4 0 018 0v6"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Presión inspiratoria máxima (PImax)', slug: 'presion-inspiratoria-maxima' },
-      { name: 'Presión espiratoria máxima (PEmax)', slug: 'presion-espiratoria-maxima' },
-    ],
-  },
-  {
-    category: 'Intercambio de O₂ y Biomarcadores',
-    accent: '#7DF9FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Difusión pulmonar de monóxido de carbono (DLCO)', slug: 'difusion-pulmonar-dlco' },
-      { name: 'Fracción exhalada de óxido nítrico (FeNO)', slug: 'fraccion-exhalada-oxido-nitrico-feno' },
-    ],
-  },
-  {
-    category: 'Función Pulmonar en Ejercicio',
-    accent: '#00E5FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="13" cy="4" r="2"/>
-        <path d="M7 21l4-4 2 2 4-8"/><path d="M9 11l-2 4 3 1"/><path d="M15 13l2-3-3-2 1-3"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Prueba de saturación y titulación de oxígeno', slug: 'prueba-saturacion-oxigeno' },
-      { name: 'Prueba de caminata de 6 minutos', slug: 'prueba-caminata-6-minutos' },
-    ],
-  },
-  {
-    category: 'Estudios del Sueño',
-    accent: '#7DF9FF',
-    icon: (
-      <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-      </svg>
-    ),
-    studies: [
-      { name: 'Polisomnografía', slug: 'polisomnografia' },
-      { name: 'Poligrafía respiratoria', slug: 'poligrafia-respiratoria' },
-    ],
-  },
-]
-
-const ACCENT_LIGHT: Record<string, string> = { '#00E5FF': '#0284C7', '#7DF9FF': '#0EA5E9' }
-const CATEGORIES_LIGHT: StudyCategory[] = CATEGORIES_DARK.map(cat => ({
-  ...cat,
-  accent: ACCENT_LIGHT[cat.accent] ?? cat.accent,
-}))
+const FALLBACK_ICON = <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>
 
 function ArrowIcon() {
   return (
@@ -126,9 +51,27 @@ function ArrowIcon() {
   )
 }
 
-export default function StudiesSection() {
+export default function StudiesSection({ studies }: { studies: Study[] }) {
   const { theme } = useTheme()
-  const CATEGORIES = theme === 'light' ? CATEGORIES_LIGHT : CATEGORIES_DARK
+
+  // Agrupar estudios del CMS por categoría
+  const categoryMap = new Map<string, { category: string; categorySlug: string; studies: { name: string; slug: string }[] }>()
+  for (const study of studies) {
+    if (!categoryMap.has(study.categorySlug)) {
+      categoryMap.set(study.categorySlug, { category: study.category, categorySlug: study.categorySlug, studies: [] })
+    }
+    categoryMap.get(study.categorySlug)!.studies.push({ name: study.name, slug: study.slug })
+  }
+  const CATEGORIES = Array.from(categoryMap.values()).map(cat => {
+    const meta = CAT_META[cat.categorySlug]
+    return {
+      category: cat.category,
+      accent: theme === 'light' ? (meta?.accentLight ?? '#0284C7') : (meta?.accentDark ?? '#00E5FF'),
+      icon: theme === 'light' ? (meta?.iconLight ?? FALLBACK_ICON) : (meta?.iconDark ?? FALLBACK_ICON),
+      studies: cat.studies,
+    }
+  })
+
   return (
     <section id="estudios" className="relative py-20 lg:py-28" style={{ background: 'linear-gradient(to bottom, var(--bg), var(--bg), var(--bg-deep))' }}>
       {/* Background accent blob */}

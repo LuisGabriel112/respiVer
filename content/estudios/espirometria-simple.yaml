@@ -1,0 +1,46 @@
+name: 'Espirometría simple'
+order: 1
+category: 'Mecánica Pulmonar'
+categorySlug: 'mecanica-pulmonar'
+tagline: 'La prueba de referencia para evaluar la función respiratoria básica'
+description: |
+  La espirometría es la prueba de función pulmonar más utilizada en el mundo. Mide el volumen y el flujo de aire que una persona puede inhalar y exhalar, lo que permite evaluar de forma objetiva y reproducible el funcionamiento del aparato respiratorio. Es indispensable para el diagnóstico inicial y el seguimiento de enfermedades como asma, EPOC, fibrosis pulmonar y muchas otras patologías que afectan la mecánica ventilatoria.
+  
+  Su principal ventaja es que es rápida, no invasiva y muy bien tolerada por la mayoría de los pacientes.
+howItWorks:
+  - 'El paciente se sienta en posición erguida y se coloca una pinza nasal para obligar a respirar exclusivamente por la boca.'
+  - 'Se adapta una boquilla desechable conectada al espirómetro con un sello hermético para evitar fugas.'
+  - 'El técnico instruye al paciente para realizar una inhalación máxima, llenando los pulmones por completo.'
+  - 'Seguidamente se realiza una espiración forzada y tan rápida como sea posible, vaciando el aire hasta no poder más.'
+  - 'La maniobra se repite al menos 3 veces para garantizar reproducibilidad.'
+parameters:
+  - name: 'FVC — Capacidad Vital Forzada'
+    description: 'Volumen total de aire exhalado en una maniobra espiratoria forzada desde inspiración máxima.'
+    reference: 'Normal: ≥ 80% del predicho'
+  - name: 'FEV₁ — Volumen Espiratorio Forzado en 1 segundo'
+    description: 'Volumen de aire exhalado durante el primer segundo de la maniobra forzada.'
+    reference: 'Normal: ≥ 80% del predicho'
+  - name: 'FEV₁/FVC — Índice de Tiffeneau'
+    description: 'Relación entre FEV₁ y FVC. Diferencia el patrón obstructivo del restrictivo.'
+    reference: 'Normal: ≥ 0.70'
+  - name: 'FEF 25–75%'
+    description: 'Flujo espiratorio forzado en la parte media de la curva.'
+    reference: ''
+  - name: 'PEF — Flujo Espiratorio Pico'
+    description: 'Velocidad máxima de flujo de aire durante la espiración forzada.'
+    reference: ''
+indications:
+  - 'Diagnóstico de asma, EPOC y otras enfermedades pulmonares crónicas'
+  - 'Seguimiento y evaluación de la progresión de enfermedades ya diagnosticadas'
+  - 'Valoración pulmonar preoperatoria'
+  - 'Escrutinio en trabajadores con exposición a polvos, humos o gases tóxicos'
+  - 'Evaluación de síntomas respiratorios: tos crónica, disnea o sibilancias'
+duration: '15–30 minutos'
+preparation:
+  - 'No fumar al menos 4 horas antes'
+  - 'Evitar broncodilatadores de acción corta 4 horas antes'
+  - 'No realizar ejercicio físico intenso en los 30 minutos previos'
+  - 'Usar ropa cómoda'
+  - 'Informar sobre todos los medicamentos actuales'
+clinicalSignificance: 'Una espirometría normal permite descartar enfermedad pulmonar obstructiva significativa. Un patrón obstructivo persistente post-broncodilatador (FEV₁/FVC < 0.70) confirma el diagnóstico de EPOC.'
+image: 'espirometro.png'

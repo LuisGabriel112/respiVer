@@ -1,0 +1,33 @@
+name: 'Poligrafía respiratoria'
+shortName: 'Poligrafía'
+order: 12
+category: 'Estudios del Sueño'
+categorySlug: 'sueno'
+tagline: 'Diagnóstico simplificado y accesible de la apnea del sueño'
+description: 'La poligrafía respiratoria registra variables respiratorias esenciales sin necesidad de electroencefalograma. Es accesible y tiene alta precisión para apnea obstructiva moderada-grave. Puede realizarse en el domicilio.'
+howItWorks:
+  - 'Se coloca el dispositivo portátil con sus sensores: cánula nasal, cinturones torácico y abdominal, oxímetro, sensor de posición y micrófono.'
+  - 'El paciente duerme con el equipo en el domicilio o en la unidad.'
+  - 'Al día siguiente los datos se descargan y un especialista analiza el registro.'
+parameters:
+  - name: 'IAH (basado en tiempo de registro)'
+    description: 'Índice de apneas e hipopneas por horas de registro (puede subestimar el real).'
+    reference: 'SAOS: ≥ 5 eventos/h con síntomas, o ≥ 15/h sin síntomas'
+  - name: 'ID — Índice de Desaturación'
+    description: 'Número de caídas de SpO₂ ≥ 3% por hora.'
+    reference: ''
+  - name: 'SpO₂ media, mínima y T90'
+    description: 'Perfil de oxigenación nocturna.'
+    reference: ''
+indications:
+  - 'Sospecha de SAOS moderado-grave'
+  - 'Primera evaluación de ronquido con pausas respiratorias'
+  - 'Seguimiento del tratamiento con CPAP'
+  - 'Pacientes con limitaciones para pernoctar en unidad'
+duration: 'Noche completa (domicilio o en la unidad)'
+preparation:
+  - 'No consumir alcohol ni sedantes el día del estudio'
+  - 'No tomar café a partir del mediodía'
+  - 'Traer ropa cómoda para dormir'
+clinicalSignificance: 'Con IAH ≥ 15 en poligrafía, la sensibilidad para SAOS moderado-grave es superior al 90%.'
+image: ''

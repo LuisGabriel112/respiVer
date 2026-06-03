@@ -1,0 +1,47 @@
+name: 'Oscilometría de impulso (IOS)'
+shortName: 'Oscilometría / IOS'
+order: 13
+category: 'Mecánica Pulmonar'
+categorySlug: 'mecanica-pulmonar'
+tagline: 'Evalúa la mecánica pulmonar respirando con normalidad, sin maniobras forzadas'
+description: |
+  La oscilometría de impulso (IOS) mide la resistencia y reactancia del sistema respiratorio superponiendo pequeñas oscilaciones de presión sobre la respiración tranquila. No requiere ningún esfuerzo ni maniobra forzada.
+  
+  Es la técnica más sensible para detectar obstrucción de las vías aéreas pequeñas, que es donde comienza la enfermedad en el asma y en el EPOC temprano.
+howItWorks:
+  - 'El paciente coloca la boquilla en la boca y sujeta las mejillas con ambas manos.'
+  - 'Se adapta una pinza nasal y respira con total normalidad.'
+  - 'El equipo genera pequeños impulsos de presión imperceptibles.'
+  - 'Se calculan resistencia y reactancia a múltiples frecuencias (5 a 20 Hz).'
+  - 'Se realizan 3 maniobras de 30–60 segundos.'
+parameters:
+  - name: 'R5 — Resistencia a 5 Hz'
+    description: 'Resistencia total incluyendo vías aéreas centrales y periféricas.'
+    reference: 'Normal: ≤ 150% del predicho'
+  - name: 'R20 — Resistencia a 20 Hz'
+    description: 'Resistencia de las vías aéreas proximales.'
+    reference: 'Normal: ≤ 150% del predicho'
+  - name: 'R5–R20 — Dependencia de frecuencia'
+    description: 'Marcador más específico de obstrucción de vías aéreas pequeñas.'
+    reference: 'Normal: < 0.07 kPa·s/L'
+  - name: 'X5 — Reactancia a 5 Hz'
+    description: 'Refleja propiedades elásticas. Valores negativos elevados indican atrapamiento aéreo.'
+    reference: 'Normal: > −0.10 kPa·s/L'
+  - name: 'AX — Área de reactancia'
+    description: 'Indicador global de heterogeneidad ventilatoria.'
+    reference: ''
+  - name: 'Fres — Frecuencia de resonancia'
+    description: 'Elevada en obstrucción.'
+    reference: 'Normal: < 15 Hz'
+indications:
+  - 'Niños desde 2–3 años'
+  - 'Adultos mayores o con limitaciones para maniobras forzadas'
+  - 'Detección de obstrucción de vías pequeñas con espirometría normal'
+  - 'Monitoreo de asma mal controlada'
+duration: '15–20 minutos'
+preparation:
+  - 'No fumar al menos 2 horas antes'
+  - 'No realizar ejercicio físico intenso 30 minutos antes'
+  - 'No se requiere esfuerzo especial'
+clinicalSignificance: 'La oscilometría detecta obstrucción de vías aéreas pequeñas hasta 5 años antes de que aparezcan alteraciones en la espirometría.'
+image: ''

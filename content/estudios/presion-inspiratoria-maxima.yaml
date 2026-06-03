@@ -1,0 +1,30 @@
+name: 'Presión inspiratoria máxima (PImax)'
+shortName: 'PImax'
+order: 5
+category: 'Fuerza Muscular Respiratoria'
+categorySlug: 'fuerza-muscular'
+tagline: 'Mide la potencia de los músculos encargados de inhalar'
+description: 'La PImax cuantifica objetivamente la fuerza de los músculos inspiratorios, en especial del diafragma. Es fundamental en el diagnóstico y seguimiento de enfermedades neuromusculares.'
+howItWorks:
+  - 'El paciente exhala completamente hasta el volumen residual.'
+  - 'Se ocluye la vía aérea mediante una válvula.'
+  - 'El paciente realiza un esfuerzo inspiratorio máximo sostenido 1–2 segundos.'
+  - 'Se repiten al menos 3 maniobras aceptables.'
+parameters:
+  - name: 'PImax (cmH₂O)'
+    description: 'Presión negativa máxima generada durante el esfuerzo inspiratorio.'
+    reference: 'Normal: < −70 cmH₂O hombres; < −60 cmH₂O mujeres'
+  - name: 'PImax % predicho'
+    description: 'Comparación con ecuaciones de referencia por edad y sexo.'
+    reference: 'Normal: ≥ 80% del predicho'
+indications:
+  - 'Enfermedades neuromusculares: ELA, distrofias musculares, Guillain-Barré'
+  - 'Evaluación de debilidad diafragmática'
+  - 'Candidatos a weaning de ventilación mecánica'
+  - 'Disnea de causa no explicada'
+duration: '15–20 minutos'
+preparation:
+  - 'Evitar ejercicio físico intenso al menos 2 horas antes'
+  - 'Informar sobre enfermedades musculares o neurológicas conocidas'
+clinicalSignificance: 'En ELA, una PImax < 60% del predicho es umbral para considerar ventilación no invasiva nocturna.'
+image: ''
