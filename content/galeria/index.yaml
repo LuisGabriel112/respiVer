@@ -1,0 +1,18 @@
+equipos:
+  - imagen: espirometro.png
+    titulo: Espirómetro
+    destacada: true
+  - imagen: pletismografo.png
+    titulo: Pletismógrafo
+    destacada: false
+  - imagen: dlco.png
+    titulo: Difusión DLCO
+    destacada: false
+  - imagen: feno.png
+    titulo: FeNO NObreath
+    destacada: false
+instalaciones:
+  - imagen: pletismografo-paciente.jpg
+    titulo: Pletismografía en nuestras instalaciones
+  - imagen: feno-paciente.jpg
+    titulo: FeNO en nuestras instalaciones

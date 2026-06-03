@@ -1,0 +1,13 @@
+items:
+  - valor: '13+'
+    etiqueta: Estudios disponibles
+    descripcion: Diagnósticos especializados
+  - valor: '6'
+    etiqueta: Áreas diagnósticas
+    descripcion: Cobertura respiratoria total
+  - valor: 100%
+    etiqueta: No invasivos
+    descripcion: Seguridad y confort del paciente
+  - valor: 1ª
+    etiqueta: Unidad en Veracruz
+    descripcion: Tecnología de vanguardia
