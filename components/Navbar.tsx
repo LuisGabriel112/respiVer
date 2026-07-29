@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { useTheme } from './ThemeProvider'
 
 const NAV_LINKS = [
-  { href: '#servicios', label: 'Servicios' },
   { href: '#estudios', label: 'Estudios' },
   { href: '#contacto', label: 'Contacto' },
 ]
