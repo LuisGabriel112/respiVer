@@ -201,7 +201,7 @@ export default config({
         email: fields.text({ label: 'Correo electrónico', defaultValue: '' }),
         direccion_linea1: fields.text({ label: 'Dirección (línea 1)', defaultValue: 'Av Paseo La Niña 103, Fracc. Las Américas' }),
         direccion_linea2: fields.text({ label: 'Dirección (línea 2)', defaultValue: '94299 Boca del Río, Veracruz' }),
-        instagram_handle: fields.text({ label: 'Instagram (@usuario)', defaultValue: '@neumoclinical' }),
+        instagram_handle: fields.text({ label: 'Instagram (@usuario)', defaultValue: '@respiver.mx' }),
         facebook_handle: fields.text({ label: 'Facebook (@usuario)', defaultValue: '@neumoclinical' }),
       },
     }),

@@ -54,7 +54,7 @@ const CONTACTO_DEFAULT: Contacto = {
   email: '',
   direccion_linea1: 'Av Paseo La Niña 103, Fracc. Las Américas',
   direccion_linea2: '94299 Boca del Río, Veracruz',
-  instagram_handle: '@neumoclinical',
+  instagram_handle: '@respiver.mx',
   facebook_handle: '@neumoclinical',
 }
 

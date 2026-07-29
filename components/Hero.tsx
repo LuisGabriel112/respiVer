@@ -73,7 +73,8 @@ export default function Hero({ contacto, heroConfig }: HeroProps) {
         </svg>
       ),
       label: contacto.instagram_handle,
-      href: '#',
+      href: `https://instagram.com/${contacto.instagram_handle.replace(/^@/, '')}`,
+      external: true,
     },
   ]
   return (

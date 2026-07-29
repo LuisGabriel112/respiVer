@@ -419,10 +419,10 @@ export default function ContactFooter({ contacto }: { contacto: Contacto }) {
                   style={{ color: 'var(--accent)' }}>Redes sociales</h3>
                 <div className="flex gap-3">
                   {[
-                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: contacto.facebook_handle },
-                    { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: contacto.instagram_handle },
-                  ].map(({ icon, label, handle }) => (
-                    <a key={label} href="#" target="_blank" rel="noopener noreferrer"
+                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: contacto.facebook_handle, href: '#' },
+                    { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: contacto.instagram_handle, href: `https://instagram.com/${contacto.instagram_handle.replace(/^@/, '')}` },
+                  ].map(({ icon, label, handle, href }) => (
+                    <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                       aria-label={`${label} ${handle}`}
                       className="flex items-center gap-2 text-white/55 hover:text-white/90 transition-colors group">
                       <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all group-hover:scale-105"
