@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next'
-
+ 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://respi-ver.vercel.app/sitemap.xml',
+    sitemap: 'https://respiver.com.mx/sitemap.xml',
   }
 }
+ 
