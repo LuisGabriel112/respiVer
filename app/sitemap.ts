@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { STUDIES } from '@/lib/studies'
 
-const BASE_URL = 'https://respi-ver.vercel.app'
+const BASE_URL = 'https://respiver.com.mx'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const studyRoutes = STUDIES.map((study) => ({
