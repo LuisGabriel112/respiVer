@@ -1,6 +1,5 @@
 import { config, fields, collection, singleton } from '@keystatic/core'
-
-const isProd = process.env.KEYSTATIC_STORAGE_KIND === 'github'
+import { resolveKeystaticStorage } from './lib/keystatic-storage'
 
 const CATEGORIES = [
   { label: 'Mecánica Pulmonar',                    value: 'Mecánica Pulmonar' },
@@ -21,9 +20,7 @@ const CATEGORY_SLUGS = [
 ]
 
 export default config({
-  storage: isProd
-    ? { kind: 'github', repo: { owner: 'LuisGabriel112', name: 'respiVer' } }
-    : { kind: 'local' },
+  storage: resolveKeystaticStorage(process.env.NEXT_PUBLIC_KEYSTATIC_STORAGE_KIND),
 
   ui: {
     brand: { name: 'RESPIVER Admin' },
