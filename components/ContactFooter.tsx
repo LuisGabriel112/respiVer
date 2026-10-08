@@ -46,7 +46,6 @@ function LazyMap() {
 
 // ── Icon helpers ──────────────────────────────────────────────────────────────
 
-
 function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -413,7 +412,6 @@ export default function ContactFooter({ contacto }: { contacto: Contacto }) {
                   style={{ color: 'var(--accent)' }}>Redes sociales</h3>
                 <div className="flex gap-3">
                   {[
-                    { icon: <FacebookIcon className="w-4 h-4" />, label: 'Facebook', handle: contacto.facebook_handle, href: '#' },
                     { icon: <InstagramIcon className="w-4 h-4" />, label: 'Instagram', handle: contacto.instagram_handle, href: `https://instagram.com/${contacto.instagram_handle.replace(/^@/, '')}` },
                   ].map(({ icon, label, handle, href }) => (
                     <a key={label} href={href} target="_blank" rel="noopener noreferrer"
